@@ -1,0 +1,38 @@
+ 
+
+function stock_taile_gallary_shortcode($atts, $content = null) {
+     
+      extract( shortcode_atts( array(
+        'images' => '',
+        'height' => '310',
+        'size' => 'large',
+    ), $atts) );
+
+     $image_ids = explode(',', $images);
+     $image_count = count($image_ids);
+     $image_no = 0;
+     
+    if(!empty($images)) {
+     $stock_taile_gallary_markup = '
+      <div class="stock-taile-gallary stock-tail-gallary-image-'.$image_count.'">';
+
+       foreach($image_ids as $image) {
+         $image_array = wp_get_attachment_image_src($image, $size);
+         $image_no++;
+         $stock_taile_gallary_markup .='<div style="background-image:url('.$image_array[0].');height:'.$height.'px" class="taile-gallary-block taile-gallary-block-'.$image_no.'"></div>';
+       }
+
+        $stock_taile_gallary_markup .='      
+      </div>
+     ';
+    } else {
+      $stock_taile_gallary_markup = '';
+    }
+     
+
+      return $stock_taile_gallary_markup ;
+
+     
+
+}
+add_shortcode('stock_taile_gallary', 'stock_taile_gallary_shortcode');
